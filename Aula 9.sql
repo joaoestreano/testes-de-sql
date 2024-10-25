@@ -34,6 +34,13 @@ SET nota = nota + 0.5
 WHERE nota IS NOT NULL;
 
 --Exercicio 5
+update tbmatricula as m
+set nota = nota + 0.2
+from tbdisciplina as d 
+where m.iddisciplina = d.id and d.nome ='Modelagem de Banco de Dados';
+
+--Exercicio 6
+
 
 --Consulta:
 select * from tbaluno as a, tbmatricula as m, tbdisciplina as d 
