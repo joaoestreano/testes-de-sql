@@ -1,3 +1,25 @@
+--Clausula
+drop table if exists tbmatricula;
+drop table if exists tbaluno;
+drop table if exists tbdisciplina;
+create table if not exists tbaluno (
+ id INTEGER PRIMARY KEY,
+ nome VARCHAR(40) not null
+);
+create table if not exists tbdisciplina (
+ id INTEGER PRIMARY KEY,
+ nome VARCHAR(30) not null,
+ carga INTEGER
+);
+create table if not exists tbmatricula (
+ iddisciplina INTEGER,
+ idaluno INTEGER,
+ nota FLOAT,
+ PRIMARY KEY (iddisciplina, idaluno),
+ FOREIGN KEY (iddisciplina)REFERENCES tbdisciplina(id),
+ FOREIGN KEY (idaluno)REFERENCES tbaluno(id)
+);
+
 --Exercicio 1
 insert into tbaluno (id, nome)
 values
@@ -40,7 +62,30 @@ from tbdisciplina as d
 where m.iddisciplina = d.id and d.nome ='Modelagem de Banco de Dados';
 
 --Exercicio 6
+update tbmatricula as m 
+set nota = 5.0 
+from tbaluno as a, tbdisciplina as d
+where a.id = m.idaluno and d.id = m.iddisciplina and a.nome = 'Luiz carlos' and d.nome = 'Ingles I'
 
+--Exercicio 7
+update tbmatricula as m 
+set nota = 0.0 
+from tbaluno as a, tbdisciplina as d
+where a.id = m.idaluno and d.id = m.iddisciplina 
+and nota is null;
+
+--Exercicio 8
+delete from tbmatricula
+where nota = 0.0;
+
+--Exercicio 9
+delete from tbmatricula as m   
+using tbaluno as a, tbdisciplina as d
+where a.id = m.idaluno and d.id = m.iddisciplina 
+and a.nome = 'Luiz carlos' and d.nome = 'Ingles I';
+
+--Exercicio 10
+delete from tbmatricula;
 
 --Consulta:
 select * from tbaluno as a, tbmatricula as m, tbdisciplina as d 
